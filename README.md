@@ -17,7 +17,6 @@ A API é integrada ao sistema, que exibe os dados em um dashboard interativo, of
 ## Tecnologias Utilizadas
 
 - **Flask**: Framework para a construção de aplicações web.
-- **Flask-RESTful**: Para criar endpoints REST.
 - **MongoDB com PyMongo**: Para armazenar os dados dos tanques e monitoramento.
 - **Flask-Marshmallow**: Para serialização e validação de dados.
 - **Flask-Bcrypt**: Para criptografia de senhas.
@@ -66,11 +65,13 @@ Com o repositório clonado e as dependências globais instaladas, você pode con
 
 Para rodar o projeto localmente, siga os passos abaixo:
 
-1. Configure o arquivo `.env` com suas variáveis de ambiente:
+1. Configure o arquivo `.config.py` com suas variáveis de ambiente:
 
-   ```env
-   MONGODB_URI=mongodb://localhost:27017/aquasense
-   JWT_SECRET_KEY=sua_chave_secreta
+   ```python
+   import os
+
+   MONGO_URI = os.getenv('MONGO_URI', 'mongodb://localhost:27017/aquasense')
+   JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'sua_chave_secreta')
    ```
 
 2. Execute o servidor:
@@ -102,16 +103,6 @@ Para conveniência, você pode configurar usuários pré-cadastrados em seu banc
 - **POST /tanks**: Criação de tanques de piscicultura.
 - **GET /sensors**: Coleta de dados dos sensores.
 - **GET /recommendations**: Recomendação baseada nos dados de monitoramento.
-
-## Histórico do desenvolvimento
-
-### Início do projeto
-
-O desenvolvimento da AquaSense API começou com o objetivo de facilitar a supervisão de sistemas de piscicultura em ciclo fechado, oferecendo uma solução integrada para monitoramento de qualidade da água e automação de recomendações.
-
-### Milestones
-
-- **v1.0.0**: Lançamento inicial com funcionalidades básicas de monitoramento e autenticação.
 
 ## Contribuidores
 
