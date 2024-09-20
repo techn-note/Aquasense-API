@@ -1,2 +1,11 @@
-.venv
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
 config.py
+
+# Ambiente Virtual
+venv/
+env/
+.venv/
