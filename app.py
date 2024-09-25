@@ -2,10 +2,11 @@ from flask import Flask
 from routes.routes import routes
 from database.db import initialize_db
 from extensions.extensions import Extensions
+from config import Config
 
 app = Flask(__name__)
 
-app.config.from_pyfile('config.py')
+app.config.from_object(Config)
 
 initialize_db(app)
 
