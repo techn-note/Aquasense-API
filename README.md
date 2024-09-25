@@ -65,19 +65,16 @@ Com o repositório clonado e as dependências globais instaladas, você pode con
 
 Para rodar o projeto localmente, siga os passos abaixo:
 
-1. Configure o arquivo `.config.py` com suas variáveis de ambiente:
-
-   ```python
-   import os
-
-   MONGO_URI = os.getenv('MONGO_URI', 'mongodb://localhost:27017/aquasense')
-   JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'sua_chave_secreta')
-   ```
-
-2. Execute o servidor:
+1. Execute o servidor sem Debugger:
 
    ```bash
    flask run
+   ```
+
+1. Execute o servidor com Debugger:
+
+   ```bash
+   Python ./app.py
    ```
 
 3. Acesse a API em `http://localhost:5000`.
