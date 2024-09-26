@@ -12,8 +12,4 @@
       "dest": "app.py"
     }
   ],
-  "env": {
-    "MONGO_URI": "mongodb+srv://ambiente-teste:123@aquasense.fgtzuhv.mongodb.net/?retryWrites=true&w=majority&appName=Aquasense",
-    "JWT_SECRET_KEY": "2132141241d"
-  }
 }
