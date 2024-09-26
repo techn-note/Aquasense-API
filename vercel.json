@@ -13,7 +13,7 @@
     }
   ],
   "env": {
-    "MONGO_URI": "@MONGO_URI",
-    "JWT_SECRET_KEY": "@JWT_SECRET_KEY"
+    "MONGO_URI": "mongodb+srv://ambiente-teste:123@aquasense.fgtzuhv.mongodb.net/?retryWrites=true&w=majority&appName=Aquasense",
+    "JWT_SECRET_KEY": "2132141241d"
   }
 }
