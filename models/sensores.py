@@ -20,3 +20,10 @@ class Sensor:
     @staticmethod
     def delete_sensor(sensor_id):
         mongo.db.sensores.delete_one({"_id": sensor_id})
+
+    @staticmethod
+    def get_latest_sensor(tipo, tanque):
+        return mongo.db.sensores.find_one(
+            {"tipo": tipo, "tanque": tanque},
+            sort=[("data", -1)]
+        )
