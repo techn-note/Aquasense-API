@@ -5,7 +5,7 @@ from models.sensores import Sensor
 class SensorSchema(Schema):
     id = fields.Str(dump_only=True)
     tipo = fields.Str(required=True, validate=validate.Length(min=1))
-    data = fields.DateTime(required=True)
+    data = fields.Str(required=True)
     valor = fields.Float(required=True, validate=validate.Range(min=0))
     tanque = fields.Str(required=True)
 
