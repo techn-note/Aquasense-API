@@ -1,4 +1,5 @@
 from database.db import mongo
+from bson import ObjectId
 
 class Atualizacao:
     @staticmethod
@@ -7,7 +8,10 @@ class Atualizacao:
     
     @staticmethod
     def get_atualizacao(atualizacao_id):
-        return mongo.db.atualizacoes.find_one({"_id": atualizacao_id})
+        try:
+            return mongo.db.atualizacoes.find_one({"_id": ObjectId(atualizacao_id)})
+        except Exception:
+            return None
 
     @staticmethod
     def get_all_atualizacoes():
@@ -15,8 +19,14 @@ class Atualizacao:
 
     @staticmethod
     def update_atualizacao(atualizacao_id, update_data):
-        mongo.db.atualizacoes.update_one({"_id": atualizacao_id}, {"$set": update_data})
+        try:
+            return mongo.db.atualizacoes.update_one({"_id": ObjectId(atualizacao_id)}, {"$set": update_data})
+        except Exception:
+            return None
 
     @staticmethod
     def delete_atualizacao(atualizacao_id):
-        mongo.db.atualizacoes.delete_one({"_id": atualizacao_id})
+        try:
+            return mongo.db.atualizacoes.delete_one({"_id": ObjectId(atualizacao_id)})
+        except Exception:
+            return None

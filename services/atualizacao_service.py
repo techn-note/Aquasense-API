@@ -48,7 +48,8 @@ def update_atualizacao_service(atualizacao_id, update_data):
 def delete_atualizacao_service(atualizacao_id):
     deleted = Atualizacao.delete_atualizacao(atualizacao_id)
     
-    if deleted.deleted_count == 0:
+    if deleted.deleted_count > 0:
+        return {"message": "Atualização deletada com sucesso"}, 200
+    else:
         return {"error": "Atualização não encontrada"}, 404
-    
-    return {"message": "Atualização deletada com sucesso"}, 200
+

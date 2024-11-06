@@ -4,7 +4,7 @@ from models.atualizacao import Atualizacao
 class AtualizacaoSchema(Schema):
     id = fields.Str(dump_only=True)
     mensagem = fields.Str(required=True, validate=validate.Length(min=1))
-    data = fields.DateTime(required=True)
+    data = fields.Str(required=True)
     tipo = fields.Str(required=True, validate=validate.OneOf(['manual', 'automática']))
     tanque = fields.Str(required=True, validate=validate.Length(min=1))
 
