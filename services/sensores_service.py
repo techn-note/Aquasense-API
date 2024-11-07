@@ -46,10 +46,10 @@ def update_sensor_service(sensor_id, update_data):
 def delete_sensor_service(sensor_id):
     deleted = Sensor.delete_sensor(sensor_id)
     
-    if deleted.deleted_count == 0:
-        return {"error": "Sensor not found"}, 404
-    
-    return {"message": "Sensor deleted successfully"}, 200
+    if deleted.deleted_count > 0:
+        return {"message": "Dado do sensor Deletado com Sucesso"}, 200
+    else:
+        return {"error": "Dado do sensor não encontrado"}, 404
 
 def get_latest_sensor_data_service(tipo, tanque):
     sensor = Sensor.get_latest_sensor(tipo, tanque)

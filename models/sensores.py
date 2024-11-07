@@ -1,4 +1,5 @@
 from database.db import mongo
+from bson.objectid import ObjectId
 
 class Sensor:
     @staticmethod
@@ -7,7 +8,7 @@ class Sensor:
     
     @staticmethod
     def get_sensor(sensor_id):
-        return mongo.db.sensores.find_one({"_id": sensor_id})
+        return mongo.db.sensores.find_one({"_id": ObjectId(sensor_id)})
 
     @staticmethod
     def get_all_sensores():
@@ -15,11 +16,19 @@ class Sensor:
 
     @staticmethod
     def update_sensor(sensor_id, update_data):
-        mongo.db.sensores.update_one({"_id": sensor_id}, {"$set": update_data})
+        try:
+            return mongo.db.sensores.update_one({"_id": ObjectId(sensor_id)}, {"$set": update_data})
+        except Exception as e:
+            print(f"Erro ao atualizar sensor: {e}")
+            return None
 
     @staticmethod
     def delete_sensor(sensor_id):
-        mongo.db.sensores.delete_one({"_id": sensor_id})
+        try:
+            return mongo.db.sensores.delete_one({"_id": ObjectId(sensor_id)})
+        except Exception as e:
+            print(f"Erro ao deletar sensor: {e}")
+            return None
 
     @staticmethod
     def get_latest_sensor(tipo, tanque):
