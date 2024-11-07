@@ -54,10 +54,9 @@ def update_peixe_service(peixe_id, update_data):
     return {"message": "Peixe updated successfully"}, 200
 
 def delete_peixe_service(peixe_id):
-
     deleted = Peixe.delete_peixe(peixe_id)
     
-    if deleted.deleted_count == 0:
-        return {"error": "Peixe not found"}, 404
-    
-    return {"message": "Peixe deleted successfully"}, 200
+    if deleted.deleted_count > 0:
+        return {"message": "Peixe Deletado com Sucesso"}, 200
+    else:
+        return {"error": "Peixe não encontrado"}, 404

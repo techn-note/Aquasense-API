@@ -43,7 +43,7 @@ def update_tank_service(tank_id, update_data):
 def delete_tank_service(tank_id):
     deleted = Tank.delete_tank(tank_id)
     
-    if deleted.deleted_count == 0:
-        return {"error": "Tank not found"}, 404
-    
-    return {"message": "Tank deleted successfully"}, 200
+    if deleted.deleted_count > 0:
+        return {"message": "Tanque Deletado com Sucesso"}, 200
+    else:
+        return {"error": "Tanque não encontrado"}, 404

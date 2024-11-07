@@ -44,6 +44,7 @@ def update_peixe(peixe_id):
     
     return response_success("Peixe atualizado com sucesso.", response)
 
+
 @peixe_bp.route('/peixes/<string:peixe_id>', methods=['DELETE'])
 def delete_peixe(peixe_id):
     response, status_code = delete_peixe_service(peixe_id)
