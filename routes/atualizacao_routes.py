@@ -4,7 +4,8 @@ from services.atualizacao_service import (
     get_atualizacao_service,
     get_all_atualizacoes_service,
     update_atualizacao_service,
-    delete_atualizacao_service
+    delete_atualizacao_service,
+    get_latest_atualizacao_service
 )
 from utils.helpers import response_success, response_error
 
@@ -12,8 +13,12 @@ atualizacao_bp = Blueprint('atualizacao', __name__)
 
 @atualizacao_bp.route('/atualizacoes', methods=['POST'])
 def add_atualizacao():
-    data = request.get_json()
-    response, status_code = create_atualizacao_service(**data)
+    tanque = request.args.get('tanque')
+    
+    if not tanque:
+        return response_error({"error": "Tanque não especificado"}, 400)
+    
+    response, status_code = create_atualizacao_service(tanque)
     
     if status_code != 201:
         return response_error(response, status_code)
@@ -56,3 +61,18 @@ def delete_atualizacao(atualizacao_id):
         return response_error(response, status_code)
     
     return response_success("Atualização deletada com sucesso.", response)
+
+
+@atualizacao_bp.route('/atualizacoes/latest', methods=['GET'])
+def get_latest_atualizacao():
+    tanque = request.args.get('tanque')
+    
+    if not tanque:
+        return response_error({"error": "Tanque não especificado"}, 400)
+    
+    response, status_code = get_latest_atualizacao_service(tanque)
+    
+    if status_code != 200:
+        return response_error(response, status_code)
+    
+    return response_success("Última atualização encontrada.", response)

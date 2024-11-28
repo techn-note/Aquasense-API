@@ -30,3 +30,10 @@ class Atualizacao:
             return mongo.db.atualizacoes.delete_one({"_id": ObjectId(atualizacao_id)})
         except Exception:
             return None
+
+    @staticmethod
+    def get_latest_atualizacao(tanque):
+        try:
+            return mongo.db.atualizacoes.find({"tanque": tanque}).sort("data", -1).limit(1).next()
+        except Exception:
+            return None

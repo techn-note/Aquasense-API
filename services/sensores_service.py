@@ -22,7 +22,7 @@ def get_sensor_service(sensor_id):
     sensor = Sensor.get_sensor(sensor_id)
     
     if not sensor:
-        return {"error": "Sensor not found"}, 404
+        return {"error": "Sensor não encontrado"}, 404
     
     return sensor_schema.dump(sensor), 200
 
@@ -39,9 +39,9 @@ def update_sensor_service(sensor_id, update_data):
     updated = Sensor.update_sensor(sensor_id, validated_data)
     
     if updated.matched_count == 0:
-        return {"error": "Sensor not found"}, 404
+        return {"error": "Sensor não encontrado"}, 404
     
-    return {"message": "Sensor updated successfully"}, 200
+    return {"message": "Sensor Atualizado com sucesso"}, 200
 
 def delete_sensor_service(sensor_id):
     deleted = Sensor.delete_sensor(sensor_id)
@@ -55,6 +55,6 @@ def get_latest_sensor_data_service(tipo, tanque):
     sensor = Sensor.get_latest_sensor(tipo, tanque)
     
     if not sensor:
-        return {"error": "No data found for the specified type and tank"}, 404
+        return {"error": "Nenhum registro encontrado para este tipo ou tanque"}, 404
     
     return sensor_schema.dump(sensor), 200
