@@ -5,7 +5,7 @@ class AtualizacaoSchema(Schema):
     id = fields.Str(dump_only=True)
     mensagem = fields.Str(required=True, validate=validate.Length(min=1))
     data = fields.Str(required=True)
-    tipo = fields.Str(required=True, validate=validate.OneOf(['manual', 'automática']))
+    tipo = fields.Str(required=True, validate=validate.OneOf(['Alerta', 'Padrao']))
     tanque = fields.Str(required=True, validate=validate.Length(min=1))
 
     @validates('mensagem')

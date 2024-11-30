@@ -3,8 +3,10 @@ from routes.routes import routes
 from database.db import initialize_db
 from extensions.extensions import Extensions
 from config import Config
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 app.config.from_object(Config)
 
