@@ -28,6 +28,18 @@ def get_peixe_service(peixe_id):
     if not peixe:
         return {"error": "Peixe not found"}, 404
     
+    
+def get_peixe_service_name(name):
+    try:
+        peixe = Peixe.get_peixe_name(name)
+        
+        if not peixe:
+            return {"error": "Fish not found"}, 404
+        
+        return peixe_schema.dump(peixe), 200
+    except Exception as e:
+        return {"error": f"Erro ao buscar peixe: {str(e)}"}, 500
+    
 
     return peixe_schema.dump(peixe), 200
 

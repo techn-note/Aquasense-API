@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from services.peixe_service import (
     create_peixe_service,
+    get_peixe_service_name,
     get_peixe_service,
     get_all_peixes_service,
     update_peixe_service,
@@ -33,6 +34,17 @@ def get_peixe(peixe_id):
 def get_all_peixes():
     response = get_all_peixes_service()
     return response_success("Lista de peixes retornada com sucesso.", response)
+
+
+@peixe_bp.route('/peixes/name/<string:name>', methods=['GET'])
+def get_peixe_by_name(name):
+    response, status_code = get_peixe_service_name(name)
+
+    if status_code != 200:
+        return response_error(response, status_code)
+
+    return response_success("Peixe encontrado.", response)
+
 
 @peixe_bp.route('/peixes/<string:peixe_id>', methods=['PUT'])
 def update_peixe(peixe_id):

@@ -23,6 +23,18 @@ def get_tank_service(tank_id):
     
     return tank_schema.dump(tank), 200
 
+def get_tank_service_name(name):
+    try:
+        tank = Tank.get_tank_name(name)
+        
+        if not tank:
+            return {"error": "Tank not found"}, 404
+        
+        return tank_schema.dump(tank), 200
+    except Exception as e:
+        return {"error": f"Erro ao buscar tanque: {str(e)}"}, 500
+
+
 def get_all_tanks_service():
     tanks = Tank.get_all_tanks()
     return tank_schema.dump(tanks, many=True), 200

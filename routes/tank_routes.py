@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from services.tank_service import create_tank_service, get_tank_service, get_all_tanks_service, update_tank_service, delete_tank_service
+from services.tank_service import create_tank_service, get_tank_service_name, get_tank_service, get_all_tanks_service, update_tank_service, delete_tank_service
 from utils.helpers import response_success, response_error
 
 
@@ -20,6 +20,16 @@ def add_tank():
 @tank_bp.route('/tanks/<string:tank_id>', methods=['GET'])
 def get_tank(tank_id):
     response, status_code = get_tank_service(tank_id)
+
+    if status_code != 200:
+        return response_error(response, status_code)
+
+    return response_success("Tanque encontrado.", response)
+
+
+@tank_bp.route('/tanks/name/<string:name>', methods=['GET'])
+def get_tank_by_name(name):
+    response, status_code = get_tank_service_name(name)
 
     if status_code != 200:
         return response_error(response, status_code)
