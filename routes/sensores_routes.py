@@ -5,7 +5,8 @@ from services.sensores_service import (
     get_all_sensores_service,
     update_sensor_service,
     delete_sensor_service,
-    get_latest_sensor_data_service
+    get_latest_sensor_data_service,
+    get_last_10_sensor_data_service
 )
 from utils.helpers import response_success, response_error
 
@@ -69,3 +70,19 @@ def get_latest_sensor_data():
         return response_error(response, status_code)
 
     return response_success("Último dado do sensor encontrado.", response)
+
+
+@sensores_bp.route('/sensores/latest/10', methods=['GET'])
+def get_last_10_sensor_data():
+    tipo = request.args.get('tipo')
+    tanque = request.args.get('tanque')
+
+    if not tipo or not tanque:
+        return response_error("Os parâmetros 'tipo' e 'tanque' são obrigatórios.", 400)
+
+    response, status_code = get_last_10_sensor_data_service(tipo, tanque)
+
+    if status_code != 200:
+        return response_error(response, status_code)
+
+    return response_success("Últimos 10 dados do sensor encontrados.", response)

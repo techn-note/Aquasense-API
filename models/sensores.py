@@ -36,3 +36,13 @@ class Sensor:
             {"tipo": tipo, "tanque": tanque},
             sort=[("data", -1)]
         )
+
+    @staticmethod
+    def get_last_10_sensor_data(tipo, tanque):
+        pipeline = [
+            {"$match": {"tipo": tipo, "tanque": tanque}},
+            {"$sort": {"data": -1}},
+            {"$limit": 10}
+        ]
+        return list(mongo.db.sensores.aggregate(pipeline))
+

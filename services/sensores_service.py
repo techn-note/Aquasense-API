@@ -58,3 +58,13 @@ def get_latest_sensor_data_service(tipo, tanque):
         return {"error": "Nenhum registro encontrado para este tipo ou tanque"}, 404
     
     return sensor_schema.dump(sensor), 200
+
+def get_last_10_sensor_data_service(tipo, tanque):
+    try:
+        sensores = Sensor.get_last_10_sensor_data(tipo, tanque)
+        if not sensores:
+            return {"error": "Nenhum registro encontrado para este tipo e tanque"}, 404
+        
+        return sensor_schema.dump(sensores, many=True), 200
+    except Exception as e:
+        return {"error": str(e)}, 500

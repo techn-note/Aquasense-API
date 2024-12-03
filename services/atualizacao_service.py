@@ -10,7 +10,7 @@ PARAMETROS_LIMITE = {
     "Temperatura": {"min": 18.0, "max": 24.0},
     "Ph": {"min": 6.8, "max": 7.2},
     "Volume": {"min": 10.0, "max": 100.0},
-    "Oxigenacao": {"min": 5.0, "max": 10.0}
+    "Tds": {"min": 150, "max": 300}
 }
 
 def create_atualizacao_service(tanque):
