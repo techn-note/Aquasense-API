@@ -7,10 +7,10 @@ from marshmallow import ValidationError
 atualizacao_schema = AtualizacaoSchema()
 
 PARAMETROS_LIMITE = {
-    "Temperatura": {"min": 18.0, "max": 24.0},
+    "Temperatura": {"min": 18.0, "max": 28.0},
     "Ph": {"min": 6.8, "max": 7.2},
-    "Volume": {"min": 10.0, "max": 100.0},
-    "Tds": {"min": 150, "max": 300}
+    "Volume": {"min": 25.0, "max": 30.0},
+    "Tds": {"min": 200, "max": 400}
 }
 
 def create_atualizacao_service(tanque):

@@ -1,6 +1,7 @@
 from models.tank import Tank
 from schemas.tank_schema import TankSchema
 from marshmallow import ValidationError
+from bson.objectid import ObjectId
 
 tank_schema = TankSchema()
 
@@ -23,16 +24,22 @@ def get_tank_service(tank_id):
     
     return tank_schema.dump(tank), 200
 
+
 def get_tank_service_name(name):
     try:
         tank = Tank.get_tank_name(name)
-        
+
         if not tank:
             return {"error": "Tank not found"}, 404
         
-        return tank_schema.dump(tank), 200
+        tank_data = tank_schema.dump(tank)
+        
+        tank_data['_id'] = str(tank.get('_id'))
+        
+        return tank_data, 200
     except Exception as e:
         return {"error": f"Erro ao buscar tanque: {str(e)}"}, 500
+
 
 
 def get_all_tanks_service():

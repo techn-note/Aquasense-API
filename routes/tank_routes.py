@@ -29,12 +29,21 @@ def get_tank(tank_id):
 
 @tank_bp.route('/tanks/name/<string:name>', methods=['GET'])
 def get_tank_by_name(name):
+
     response, status_code = get_tank_service_name(name)
+
 
     if status_code != 200:
         return response_error(response, status_code)
 
+
+    tank = response.get("data")
+    if tank:
+
+        tank["_id"] = str(tank["_id"])
+
     return response_success("Tanque encontrado.", response)
+
 
 
 @tank_bp.route('/tanks', methods=['GET'])

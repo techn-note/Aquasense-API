@@ -38,12 +38,21 @@ def get_all_peixes():
 
 @peixe_bp.route('/peixes/name/<string:name>', methods=['GET'])
 def get_peixe_by_name(name):
+
     response, status_code = get_peixe_service_name(name)
+
 
     if status_code != 200:
         return response_error(response, status_code)
 
+
+    peixe = response.get("data")
+    if peixe:
+
+        peixe["_id"] = str(peixe["_id"])
+
     return response_success("Peixe encontrado.", response)
+
 
 
 @peixe_bp.route('/peixes/<string:peixe_id>', methods=['PUT'])
