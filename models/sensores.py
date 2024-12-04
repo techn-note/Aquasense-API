@@ -42,7 +42,7 @@ class Sensor:
         pipeline = [
             {"$match": {"tipo": tipo, "tanque": tanque}},
             {"$sort": {"data": -1}},
-            {"$limit": 10}
+            {"$limit": 5}
         ]
         return list(mongo.db.sensores.aggregate(pipeline))
 

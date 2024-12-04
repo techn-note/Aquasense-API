@@ -85,4 +85,4 @@ def get_last_10_sensor_data():
     if status_code != 200:
         return response_error(response, status_code)
 
-    return response_success("Últimos 10 dados do sensor encontrados.", response)
+    return response_success("Últimos 5 dados do sensor encontrados.", response)
