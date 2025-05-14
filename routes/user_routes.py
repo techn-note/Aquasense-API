@@ -12,7 +12,7 @@ def add_user():
     data = request.get_json()
 
     if not validate_email(data.get('email')):
-        return response_error("Email is not valid.", 400)
+        return response_error("Email Não é Válido", 400)
 
     response, status_code = create_user_service(**data)
 
@@ -30,9 +30,9 @@ def login_user():
     access_token = loged(email, password)
 
     if access_token:
-        return response_success("Login successful", {"access_token": access_token})
+        return response_success("Login realizado", {"access_token": access_token})
     
-    return response_error("Bad credentials", 400)
+    return response_error("Email ou Senha Incorretos", 400)
 
 
 @user_bp.route('/profile', methods=['GET'])
@@ -41,6 +41,6 @@ def profile():
     user_id = get_jwt_identity()
     user = User.get_user(user_id)
     if user:
-        return response_success("User profile fetched successfully.", {"name": user['name']})
+        return response_success("Usuário Encontrado com sucesso", {"name": user['name']})
     else:
-        return response_error("User not found.", 404)
+        return response_error("Usuário não encontrado", 404)

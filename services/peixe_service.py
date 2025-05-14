@@ -1,6 +1,7 @@
 from models.peixe import Peixe
 from schemas.peixe_schema import PeixeSchema
 from marshmallow import ValidationError
+from bson.objectid import ObjectId
 
 peixe_schema = PeixeSchema()
 
@@ -28,8 +29,24 @@ def get_peixe_service(peixe_id):
     if not peixe:
         return {"error": "Peixe not found"}, 404
     
+    
+def get_peixe_service_name(name):
+    try:
+        peixe = Peixe.get_peixe_name(name)
 
-    return peixe_schema.dump(peixe), 200
+        if not peixe:
+            return {"error": "Fish not found"}, 404
+        
+        peixe_data = peixe_schema.dump(peixe)
+        
+        peixe_data['_id'] = str(peixe.get('_id'))
+        
+        return peixe_data, 200
+    except Exception as e:
+        return {"error": f"Erro ao buscar peixe: {str(e)}"}, 500
+
+
+
 
 def get_all_peixes_service():
 

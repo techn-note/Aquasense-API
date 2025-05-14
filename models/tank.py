@@ -17,6 +17,15 @@ class Tank:
         except Exception as e:
             print(f"Erro ao buscar tanque: {e}")
             return None
+        
+    @staticmethod
+    def get_tank_name(name):
+        try:
+            return mongo.db.tanks.find_one({"name": name})
+        except Exception as e:
+            print(f"Erro ao buscar tanque: {e}")
+            return None
+
 
     @staticmethod
     def update_tank(tank_id, update_data):

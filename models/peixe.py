@@ -13,6 +13,14 @@ class Peixe:
         except Exception as e:
             print(f"Erro ao buscar peixe: {e}")
             return None
+        
+    @staticmethod
+    def get_peixe_name(name):
+        try:
+            return mongo.db.peixes.find_one({"nome": name})
+        except Exception as e:
+            print(f"Erro ao buscar peixe: {e}")
+            return None
 
     @staticmethod
     def get_all_peixes():

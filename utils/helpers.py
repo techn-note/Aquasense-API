@@ -1,5 +1,6 @@
 from flask import jsonify
 from extensions.extensions import bcrypt
+from datetime import timedelta
 
 def response_success(message, data=None):
     return jsonify({"message": message, "data": data}), 200
@@ -24,7 +25,7 @@ def validate_login(email, password):
     
     user = User.get_user_by_email(email)
     if user and check_password_hash(user['password'], password):
-        access_token = create_access_token(identity=str(user['_id']))
+        access_token = create_access_token(identity=str(user['_id']), expires_delta=timedelta(hours=1))
         return access_token
     return None
 
