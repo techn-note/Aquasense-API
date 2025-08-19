@@ -7,7 +7,10 @@ from flask_cors import CORS
 import requests
 
 app = Flask(__name__)
+
 CORS(app)
+
+print()
 
 app.config.from_object(Config)  # <- Isso já usa a URI fixa
 
