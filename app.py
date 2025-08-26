@@ -12,7 +12,7 @@ CORS(app)
 
 print()
 
-app.config.from_object(Config)  # <- Isso já usa a URI fixa
+app.config.from_object(Config)
 
 initialize_db(app)
 Extensions.initialize_jwt(app)

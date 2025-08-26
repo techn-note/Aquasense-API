@@ -36,7 +36,7 @@ def get_all_peixes():
     return response_success("Lista de peixes retornada com sucesso.", response)
 
 
-@peixe_bp.route('/peixes/name/<string:name>', methods=['GET'])
+@peixe_bp.route('/peixes/nome/<string:name>', methods=['GET'])
 def get_peixe_by_name(name):
 
     response, status_code = get_peixe_service_name(name)

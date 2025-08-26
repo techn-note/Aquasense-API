@@ -63,7 +63,7 @@ def delete_atualizacao(atualizacao_id):
     return response_success("Atualização deletada com sucesso.", response)
 
 
-@atualizacao_bp.route('/atualizacoes/latest', methods=['GET'])
+@atualizacao_bp.route('/atualizacoes/ultima', methods=['GET'])
 def get_latest_atualizacao():
     tanque = request.args.get('tanque')
     

@@ -6,7 +6,7 @@ from utils.helpers import response_success, response_error
 tank_bp = Blueprint('tank', __name__)
 
 
-@tank_bp.route('/tanks', methods=['POST'])
+@tank_bp.route('/tanque', methods=['POST'])
 def add_tank():
     data = request.get_json()
     response, status_code = create_tank_service(**data)
@@ -17,7 +17,7 @@ def add_tank():
     return response_success("Tanque foi adicionado com sucesso.", response)
 
 
-@tank_bp.route('/tanks/<string:tank_id>', methods=['GET'])
+@tank_bp.route('/tanque/<string:tank_id>', methods=['GET'])
 def get_tank(tank_id):
     response, status_code = get_tank_service(tank_id)
 
@@ -27,7 +27,7 @@ def get_tank(tank_id):
     return response_success("Tanque encontrado.", response)
 
 
-@tank_bp.route('/tanks/name/<string:name>', methods=['GET'])
+@tank_bp.route('/tanque/nome/<string:name>', methods=['GET'])
 def get_tank_by_name(name):
 
     response, status_code = get_tank_service_name(name)
@@ -46,14 +46,14 @@ def get_tank_by_name(name):
 
 
 
-@tank_bp.route('/tanks', methods=['GET'])
+@tank_bp.route('/tanque', methods=['GET'])
 def get_all_tanks():
     response, status_code = get_all_tanks_service()
 
     return response_success("Tanques encontrados.", response)
 
 
-@tank_bp.route('/tanks/<string:tank_id>', methods=['PUT'])
+@tank_bp.route('/tanque/<string:tank_id>', methods=['PUT'])
 def update_tank(tank_id):
     data = request.get_json()
     response, status_code = update_tank_service(tank_id, data)
@@ -64,7 +64,7 @@ def update_tank(tank_id):
     return response_success("Tanque atualizado com sucesso.", response)
 
 
-@tank_bp.route('/tanks/<string:tank_id>', methods=['DELETE'])
+@tank_bp.route('/tanque/<string:tank_id>', methods=['DELETE'])
 def delete_tank(tank_id):
     response, status_code = delete_tank_service(tank_id)
 

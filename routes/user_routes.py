@@ -7,7 +7,7 @@ from models.user import User
 user_bp = Blueprint('user', __name__)
 
 
-@user_bp.route('/register', methods=['POST'])
+@user_bp.route('/registrar', methods=['POST'])
 def add_user():
     data = request.get_json()
 
@@ -22,7 +22,7 @@ def add_user():
     return response_success("Usuário foi adicionado com sucesso.", response)
 
 
-@user_bp.route('/login', methods=['POST'])
+@user_bp.route('/entrar', methods=['POST'])
 def login_user():
     data = request.get_json()
     email = data.get('email')
@@ -35,7 +35,7 @@ def login_user():
     return response_error("Email ou Senha Incorretos", 400)
 
 
-@user_bp.route('/profile', methods=['GET'])
+@user_bp.route('/perfil', methods=['GET'])
 @jwt_required()
 def profile():
     user_id = get_jwt_identity()

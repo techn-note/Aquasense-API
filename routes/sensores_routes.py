@@ -56,7 +56,7 @@ def delete_sensor(sensor_id):
 
     return response_success("Sensor excluído com sucesso.", response)
 
-@sensores_bp.route('/sensores/latest', methods=['GET'])
+@sensores_bp.route('/sensores/ultima', methods=['GET'])
 def get_latest_sensor_data():
     tipo = request.args.get('tipo')
     tanque = request.args.get('tanque')
@@ -72,7 +72,7 @@ def get_latest_sensor_data():
     return response_success("Último dado do sensor encontrado.", response)
 
 
-@sensores_bp.route('/sensores/latest/10', methods=['GET'])
+@sensores_bp.route('/sensores/ultima/10', methods=['GET'])
 def get_last_10_sensor_data():
     tipo = request.args.get('tipo')
     tanque = request.args.get('tanque')
