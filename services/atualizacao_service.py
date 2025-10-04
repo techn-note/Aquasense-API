@@ -13,7 +13,7 @@ PARAMETROS_LIMITE = {
     "Tds": {"min": 200, "max": 400}
 }
 
-def create_atualizacao_service(tanque):
+def create_atualizacao_service(tanque, user_id):
     alertas = []
     tipo_mensagem = "Padrao"
 
@@ -35,24 +35,21 @@ def create_atualizacao_service(tanque):
                 tipo_mensagem = "Alerta"
                 break
 
-
     if not alertas:
         if not any([get_latest_sensor_data_service(tipo, tanque)[1] == 200 for tipo in PARAMETROS_LIMITE]):
-
             mensagem = "Sem sensores para analisar"
         else:
-
             mensagem = "Tudo certo por aqui!"
         tipo_mensagem = "Padrao"
     else:
         mensagem = alertas[0]
 
-
     atualizacao_data = {
         "mensagem": mensagem,
         "data": datetime.now().isoformat(),
         "tipo": tipo_mensagem,
-        "tanque": tanque
+        "tanque": tanque,
+        "user_id": user_id
     }
 
     try:
@@ -64,33 +61,36 @@ def create_atualizacao_service(tanque):
     return {"atualizacao_id": str(result.inserted_id), "mensagem": mensagem}, 201
 
 
-def get_atualizacao_service(atualizacao_id):
-    atualizacao = Atualizacao.get_atualizacao(atualizacao_id)
+def get_atualizacao_service(atualizacao_id, user_id):
+    atualizacao = Atualizacao.get_atualizacao(atualizacao_id, user_id=user_id)
     
     if not atualizacao:
         return {"error": "Atualização não encontrada"}, 404
     
     return atualizacao_schema.dump(atualizacao), 200
 
-def get_all_atualizacoes_service():
-    atualizacoes = Atualizacao.get_all_atualizacoes()
+
+def get_all_atualizacoes_service(user_id):
+    atualizacoes = Atualizacao.get_all_atualizacoes(user_id=user_id)
     return atualizacao_schema.dump(atualizacoes, many=True), 200
 
-def update_atualizacao_service(atualizacao_id, update_data):
+
+def update_atualizacao_service(atualizacao_id, update_data, user_id):
     try:
         validated_data = atualizacao_schema.load(update_data, partial=True)
     except ValidationError as err:
         return {"error": err.messages}, 400
 
-    updated = Atualizacao.update_atualizacao(atualizacao_id, validated_data)
+    updated = Atualizacao.update_atualizacao(atualizacao_id, validated_data, user_id=user_id)
     
     if updated.matched_count == 0:
         return {"error": "Atualização não encontrada"}, 404
     
     return {"message": "Atualização atualizada com sucesso"}, 200
 
-def delete_atualizacao_service(atualizacao_id):
-    deleted = Atualizacao.delete_atualizacao(atualizacao_id)
+
+def delete_atualizacao_service(atualizacao_id, user_id):
+    deleted = Atualizacao.delete_atualizacao(atualizacao_id, user_id=user_id)
     
     if deleted.deleted_count > 0:
         return {"message": "Atualização deletada com sucesso"}, 200
@@ -98,8 +98,8 @@ def delete_atualizacao_service(atualizacao_id):
         return {"error": "Atualização não encontrada"}, 404
 
 
-def get_latest_atualizacao_service(tanque):
-    atualizacao = Atualizacao.get_latest_atualizacao(tanque)
+def get_latest_atualizacao_service(tanque, user_id):
+    atualizacao = Atualizacao.get_latest_atualizacao(tanque, user_id=user_id)
     
     if not atualizacao:
         return {"mensagem": "Nenhuma atualização disponível para este tanque."}, 200

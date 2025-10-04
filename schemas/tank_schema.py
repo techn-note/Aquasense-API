@@ -5,6 +5,7 @@ from datetime import datetime
 
 class TankSchema(Schema):
     id = fields.Str(dump_only=True)
+    user_id = fields.Str(required=True)
     name = fields.Str(required=True, validate=validate.Length(min=1))
     capacity = fields.Float(required=True, validate=validate.Range(min=0))
     number = fields.Number(required=True, validate=validate.Range(min=0))

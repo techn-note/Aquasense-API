@@ -3,6 +3,7 @@ from models.atualizacao import Atualizacao
 
 class AtualizacaoSchema(Schema):
     id = fields.Str(dump_only=True)
+    user_id = fields.Str(required=True)
     mensagem = fields.Str(required=True, validate=validate.Length(min=1))
     data = fields.Str(required=True)
     tipo = fields.Str(required=True, validate=validate.OneOf(['Alerta', 'Padrao']))

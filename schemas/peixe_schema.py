@@ -3,6 +3,7 @@ from models.peixe import Peixe
 
 class PeixeSchema(Schema):
     id = fields.Str(dump_only=True)
+    user_id = fields.Str(required=True)
     nome = fields.Str(required=True, validate=validate.Length(min=1))
     idade = fields.Int(required=True, validate=validate.Range(min=0))
     especie = fields.Str(required=True, validate=validate.Length(min=1))
