@@ -4,6 +4,7 @@ from models.sensores import Sensor
 
 class SensorSchema(Schema):
     id = fields.Str(dump_only=True)
+    user_id = fields.Str(required=True)
     tipo = fields.Str(required=True, validate=validate.Length(min=1))
     data = fields.Str(required=True)
     valor = fields.Float(required=True, validate=validate.Range(min=0))
