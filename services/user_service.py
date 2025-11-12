@@ -27,3 +27,25 @@ def create_user_service(name, email, age, country, password):
 
 def loged(email, password):
     return validate_login(email, password)
+
+
+def update_user_service(user_id, update_data):
+    try:
+        validated_data = user_schema.load(update_data, partial=True)
+    except ValidationError as err:
+        return {"error": err.messages}, 400
+
+    if "email" in validated_data:
+        existing_user = User.find_by_email(validated_data["email"])
+        if existing_user and str(existing_user["_id"]) != str(user_id):
+            return {"error": "E-mail já está sendo utilizado por outro usuário."}, 400
+
+    if "password" in validated_data:
+        validated_data["password"] = hash_password(validated_data["password"])
+
+    updated = User.update_user(user_id, validated_data)
+
+    if updated.matched_count == 0:
+        return {"error": "Usuário não encontrado."}, 404
+
+    return {"message": "Usuário atualizado com sucesso."}, 200
