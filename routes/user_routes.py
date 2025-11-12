@@ -44,3 +44,14 @@ def profile():
         return response_success("Usuário Encontrado com sucesso", {"name": user['name']})
     else:
         return response_error("Usuário não encontrado", 404)
+
+
+@user_bp.route('/alteraruser', methods=['PUT'])
+@jwt_required()
+def update_user():
+    user_id = get_jwt_identity()
+    data = request.get_json()
+    response, status = update_user_service(user_id, data)
+    if status != 200:
+        return response_error(response, status)
+    return response_success("Dados atualizados com sucesso.", response)
