@@ -1,24 +1,65 @@
+import requests
 from models.tank import Tank
 from schemas.tank_schema import TankSchema
 from marshmallow import ValidationError
 
 tank_schema = TankSchema()
 
+# 🔧 URL da API dos sensores — se o MQTT estiver em outra máquina, troque pelo IP dela
+SENSOR_API_URL = "http://127.0.0.1:5001/setup"
+
+
 def create_tank_service(name, capacity, number, user_id):
+    """
+    Cria um tanque na API principal e envia seus dados para a API dos sensores (MQTT Service).
+    """
+
+    # 1️⃣ Validação dos dados do tanque
     tank_data = {
         "name": name,
         "capacity": capacity,
         "number": number,
         "user_id": user_id
     }
-    
+
     try:
         validated_data = tank_schema.load(tank_data)
     except ValidationError as err:
         return {"error": err.messages}, 400
 
+    # 2️⃣ Cria o tanque no MongoDB (API principal)
     result = Tank.create_tank(validated_data)
-    return {"tank_id": str(result.inserted_id)}, 201
+    tank_id = str(result.inserted_id)
+
+    # 3️⃣ Envia os dados para a API dos sensores (mqtt_service.py)
+    sensor_payload = {
+        "tank_id": tank_id,
+        "name": name,
+        "user_id": user_id,
+        "capacity": capacity,
+        "number": number
+    }
+
+    try:
+        response = requests.post(SENSOR_API_URL, json=sensor_payload, timeout=8)
+
+        if response.status_code in (200, 201):
+            print(f"✅ Tanque '{name}' (ID: {tank_id}) enviado com sucesso para o serviço MQTT.")
+        else:
+            print(f"⚠️ Erro ao enviar tanque: {response.status_code} - {response.text}")
+
+    except requests.ConnectionError:
+        print("❌ Falha de conexão: o serviço MQTT (porta 5001) não está acessível.")
+    except requests.Timeout:
+        print("⚠️ Tempo limite excedido ao tentar comunicar com o serviço MQTT.")
+    except Exception as e:
+        print(f"❌ Erro inesperado ao enviar tanque: {str(e)}")
+
+    # 4️⃣ Retorno para a API principal
+    return {
+        "message": "Tanque criado com sucesso e sincronizado com o serviço MQTT.",
+        "data": {"tank_id": tank_id}
+    }, 201
 
 
 def get_tank_service(tank_id, user_id):

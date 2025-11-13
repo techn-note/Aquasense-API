@@ -13,6 +13,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 sensores_bp = Blueprint('sensores', __name__)
 
+
 @sensores_bp.route('/sensores', methods=['POST'])
 @jwt_required()
 def add_sensor():
