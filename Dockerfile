@@ -11,13 +11,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY . .
 
-COPY .env .env
+# Copie o .env APENAS se realmente precisar
+# COPY .env .env
 
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=production
-ENV FLASK_RUN_HOST=0.0.0.0
 ENV PYTHONUNBUFFERED=1
 
 EXPOSE 5000
 
-CMD ["flask", "run"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--threads", "2", "--timeout", "60", "--keep-alive", "5", "--access-logfile", "-", "--error-logfile", "-", "app:app"]
