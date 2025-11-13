@@ -2,11 +2,14 @@ import requests
 from models.tank import Tank
 from schemas.tank_schema import TankSchema
 from marshmallow import ValidationError
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 tank_schema = TankSchema()
 
-# 🔧 URL da API dos sensores — se o MQTT estiver em outra máquina, troque pelo IP dela
-SENSOR_API_URL = "http://127.0.0.1:5001/setup"
+SENSOR_API_URL = os.environ.get("SENSOR_API_URL", "http://127.0.0.1:5001/setup")
 
 
 def create_tank_service(name, capacity, number, user_id):
