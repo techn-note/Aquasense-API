@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from services.user_service import create_user_service, loged
+from services.user_service import create_user_service, loged, update_user_service, get_user_profile_service
 from utils.helpers import response_success, response_error, validate_email
 from models.user import User
 
@@ -55,3 +55,19 @@ def update_user():
     if status != 200:
         return response_error(response, status)
     return response_success("Dados atualizados com sucesso.", response)
+
+
+@user_bp.route('/me', methods=['GET'])
+@jwt_required()
+def get_user_profile():
+    """
+    Retorna todas as informações do usuário logado
+    Requer: Header Authorization: Bearer <token>
+    """
+    user_id = get_jwt_identity()
+    user, status_code = get_user_profile_service(user_id)
+    
+    if status_code != 200:
+        return response_error(user, status_code)
+    
+    return response_success("Perfil do usuário recuperado com sucesso", user)

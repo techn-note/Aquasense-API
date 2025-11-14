@@ -36,7 +36,7 @@ def update_user_service(user_id, update_data):
         return {"error": err.messages}, 400
 
     if "email" in validated_data:
-        existing_user = User.find_by_email(validated_data["email"])
+        existing_user = User.get_user_by_email(validated_data["email"])
         if existing_user and str(existing_user["_id"]) != str(user_id):
             return {"error": "E-mail já está sendo utilizado por outro usuário."}, 400
 
@@ -49,3 +49,19 @@ def update_user_service(user_id, update_data):
         return {"error": "Usuário não encontrado."}, 404
 
     return {"message": "Usuário atualizado com sucesso."}, 200
+
+
+def get_user_profile_service(user_id):
+
+    user = User.get_user(user_id)
+    
+    if not user:
+        return {"error": "Usuário não encontrado"}, 404
+    
+    if 'password' in user:
+        del user['password']
+    
+    if '_id' in user:
+        user['_id'] = str(user['_id'])
+    
+    return user, 200

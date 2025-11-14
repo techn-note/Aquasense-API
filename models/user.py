@@ -18,7 +18,10 @@ class User:
 
     @staticmethod
     def update_user(user_id, update_data):
-        mongo.db.users.update_one({"_id": user_id}, {"$set": update_data})
+        return mongo.db.users.update_one(
+            {"_id": ObjectId(user_id)}, 
+            {"$set": update_data}
+    )
 
     @staticmethod
     def delete_user(user_id):
