@@ -24,3 +24,4 @@ requests==2.32.5
 six==1.17.0
 urllib3==2.5.0
 Werkzeug==3.0.4
+gunicorn=22.0.0
