@@ -5,6 +5,7 @@ from extensions.extensions import Extensions
 from config import Config
 from flask_cors import CORS
 import requests
+import os
 
 app = Flask(__name__)
 
@@ -21,15 +22,28 @@ Extensions.initialize_bcript(app)
 
 app.register_blueprint(routes)
 
-@app.route('/predict', methods=['POST'])
-def predict():
+# URL da API Neural Network (configurável via variável de ambiente)
+NEURAL_API_URL = os.getenv('NEURAL_API_URL', 'http://localhost:8000')
+
+
+@app.route('/neural-predict', methods=['POST'])
+def neural_predict():
+    """Rota que encaminha requisições para a Neural Network API."""
     data = request.get_json()
     try:
-        response = requests.post('http://localhost:8001/predict', json=data, timeout=10)
+        response = requests.post(
+            f'{NEURAL_API_URL}/predict',
+            json=data,
+            timeout=10
+        )
         response.raise_for_status()
         return jsonify(response.json()), response.status_code
     except requests.RequestException as e:
-        return jsonify({'error': 'Erro ao conectar com a API de predição', 'details': str(e)}), 500
+        return jsonify({
+            'error': 'Erro ao conectar com a API de predição neural',
+            'details': str(e)
+        }), 500
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
